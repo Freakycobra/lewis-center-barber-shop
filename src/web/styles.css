@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap');
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-gold: #C9A84C;
+  --color-gold-light: #E8C76A;
+  --color-warm-white: #F5F0E8;
+  --color-deep-black: #080808;
+  --color-card-bg: #111111;
+  --color-section-alt: #0d0d0d;
+}
+
+:root {
+  --radius: 0.25rem;
+  --background: #080808;
+  --foreground: #F5F0E8;
+  --card: #111111;
+  --card-foreground: #F5F0E8;
+  --popover: #111111;
+  --popover-foreground: #F5F0E8;
+  --primary: #C9A84C;
+  --primary-foreground: #080808;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #F5F0E8;
+  --muted: #1a1a1a;
+  --muted-foreground: #888888;
+  --accent: #C9A84C;
+  --accent-foreground: #080808;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #222222;
+  --input: #1a1a1a;
+  --ring: #C9A84C;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'DM Sans', sans-serif;
+    background-color: #080808;
+    color: #F5F0E8;
+  }
+  h1, h2, h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.05em;
+  }
+  h4, h5, h6 {
+    font-family: 'Oswald', sans-serif;
+  }
+}
+
+/* Noise texture overlay */
+.noise-overlay {
+  position: relative;
+}
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Gold shimmer animation */
+@keyframes gold-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.gold-shimmer {
+  background: linear-gradient(90deg, #C9A84C 0%, #E8C76A 40%, #C9A84C 60%, #A07830 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gold-shimmer 4s linear infinite;
+}
+
+/* Fade up animation */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s ease forwards;
+}
+
+.animate-fade-up-delay-1 {
+  animation: fade-up 0.7s ease 0.15s forwards;
+  opacity: 0;
+}
+
+.animate-fade-up-delay-2 {
+  animation: fade-up 0.7s ease 0.3s forwards;
+  opacity: 0;
+}
+
+.animate-fade-up-delay-3 {
+  animation: fade-up 0.7s ease 0.45s forwards;
+  opacity: 0;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Gold divider */
+.gold-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #C9A84C, transparent);
+}
+
+/* Barber pole stripe */
+@keyframes stripe-scroll {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 0; }
+}
+.barber-stripe {
+  background: repeating-linear-gradient(
+    45deg,
+    #C9A84C,
+    #C9A84C 4px,
+    #080808 4px,
+    #080808 12px,
+    #F5F0E8 12px,
+    #F5F0E8 16px,
+    #080808 16px,
+    #080808 24px
+  );
+  animation: stripe-scroll 1s linear infinite;
+}
+
+/* Scissor icon rotation on hover */
+.scissor-hover:hover {
+  transform: rotate(20deg);
+  transition: transform 0.3s ease;
+}
