@@ -1,6 +1,18 @@
 import { useEffect, useRef } from "react";
 import { reviews } from "../data/shop";
 
+function StarRating({ count }: { count: number }) {
+  return (
+    <div style={{ display: "flex", gap: "3px", marginBottom: "16px" }}>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill={i < count ? "#C9A84C" : "#2a2a2a"} xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      ))}
+    </div>
+  );
+}
+
 export default function Reviews() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -51,28 +63,41 @@ export default function Reviews() {
                 padding: "36px 32px",
                 position: "relative",
                 transition: "border-color 0.3s ease",
+                overflow: "hidden",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.25)")}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1a1a1a")}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.borderColor = "rgba(201,168,76,0.25)";
+                const glow = el.querySelector(".review-glow") as HTMLElement;
+                if (glow) glow.style.opacity = "1";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.borderColor = "#1a1a1a";
+                const glow = el.querySelector(".review-glow") as HTMLElement;
+                if (glow) glow.style.opacity = "0";
+              }}
             >
-              {/* Gold quote mark */}
-              <div style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: "80px",
-                color: "#C9A84C",
-                lineHeight: 0.7,
-                marginBottom: "20px",
-                opacity: 0.4,
-              }}>
-                "
-              </div>
+              {/* Corner glow */}
+              <div className="review-glow" style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "200px",
+                height: "200px",
+                background: "radial-gradient(ellipse at top left, rgba(201,168,76,0.05), transparent 60%)",
+                opacity: 0,
+                transition: "opacity 0.4s ease",
+                pointerEvents: "none",
+              }} />
+
+              {/* Large quote mark — SVG */}
+              <svg width="40" height="32" viewBox="0 0 40 32" fill="none" style={{ marginBottom: "20px", opacity: 0.35 }}>
+                <path d="M0 32V18.4C0 7.893 5.12 2.08 15.36 0l1.6 3.04C12.16 4.64 9.6 7.787 8.96 12.8H16V32H0ZM24 32V18.4C24 7.893 29.12 2.08 39.36 0L40.96 3.04C36.16 4.64 33.6 7.787 32.96 12.8H40V32H24Z" fill="#C9A84C"/>
+              </svg>
 
               {/* Stars */}
-              <div style={{ marginBottom: "16px" }}>
-                {"★".repeat(review.stars).split("").map((star, si) => (
-                  <span key={si} style={{ color: "#C9A84C", fontSize: "14px" }}>{star}</span>
-                ))}
-              </div>
+              <StarRating count={review.stars} />
 
               {/* Review text */}
               <p style={{
@@ -127,14 +152,23 @@ export default function Reviews() {
           justifyContent: "space-around",
           flexWrap: "wrap",
           gap: "32px",
+          position: "relative",
+          overflow: "hidden",
         }}>
+          {/* Subtle background */}
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            background: "repeating-linear-gradient(90deg, rgba(201,168,76,0.015) 0px, rgba(201,168,76,0.015) 1px, transparent 1px, transparent 60px)",
+            pointerEvents: "none",
+          }} />
           {[
             { platform: "Google", rating: "4.8", count: "76+ Reviews" },
             { platform: "Yelp", rating: "5.0", count: "7 Reviews" },
             { platform: "Booksy", rating: "4.9", count: "76+ Reviews" },
             { platform: "Facebook", rating: "96%", count: "Recommend" },
           ].map((r) => (
-            <div key={r.platform} style={{ textAlign: "center" }}>
+            <div key={r.platform} style={{ textAlign: "center", position: "relative", zIndex: 1 }}>
               <div style={{
                 fontFamily: "'Bebas Neue', sans-serif",
                 fontSize: "48px",

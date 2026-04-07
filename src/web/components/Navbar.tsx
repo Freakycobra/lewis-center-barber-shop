@@ -1,6 +1,21 @@
 import { useState, useEffect } from "react";
 import { shop } from "../data/shop";
 
+function ScissorsLogo() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Barber pole inspired logo mark */}
+      <rect x="14" y="2" width="4" height="28" rx="2" fill="#C9A84C" opacity="0.2"/>
+      {/* Scissors */}
+      <circle cx="8" cy="8" r="3.5" stroke="#C9A84C" strokeWidth="1.8" fill="none"/>
+      <circle cx="8" cy="24" r="3.5" stroke="#C9A84C" strokeWidth="1.8" fill="none"/>
+      <line x1="27" y1="5" x2="10.5" y2="21.5" stroke="#C9A84C" strokeWidth="1.8" strokeLinecap="round"/>
+      <line x1="20" y1="20" x2="27" y2="27" stroke="#C9A84C" strokeWidth="1.8" strokeLinecap="round"/>
+      <line x1="10.5" y1="10.5" x2="15" y2="15" stroke="#C9A84C" strokeWidth="1.8" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -37,7 +52,7 @@ export default function Navbar() {
           {/* Logo */}
           <a href="#" style={{ textDecoration: "none" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <span style={{ fontSize: "22px" }}>💈</span>
+              <ScissorsLogo />
               <div>
                 <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "18px", letterSpacing: "0.1em", color: "#C9A84C", lineHeight: 1 }}>
                   LCBS
@@ -86,6 +101,9 @@ export default function Navbar() {
                 padding: "8px 20px",
                 textDecoration: "none",
                 transition: "background-color 0.2s ease",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
               }}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#E8C76A")}
               onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#C9A84C")}
@@ -101,9 +119,9 @@ export default function Navbar() {
             className="mobile-menu-btn"
             aria-label="Menu"
           >
-            <div style={{ width: "24px", height: "2px", backgroundColor: "#C9A84C", marginBottom: "5px", transition: "all 0.3s" }} />
-            <div style={{ width: "16px", height: "2px", backgroundColor: "#C9A84C", marginBottom: "5px", transition: "all 0.3s" }} />
-            <div style={{ width: "24px", height: "2px", backgroundColor: "#C9A84C", transition: "all 0.3s" }} />
+            <div style={{ width: "24px", height: "2px", backgroundColor: "#C9A84C", marginBottom: "5px", transition: "all 0.3s", transform: menuOpen ? "rotate(45deg) translateY(7px)" : "none" }} />
+            <div style={{ width: "16px", height: "2px", backgroundColor: "#C9A84C", marginBottom: "5px", transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }} />
+            <div style={{ width: "24px", height: "2px", backgroundColor: "#C9A84C", transition: "all 0.3s", transform: menuOpen ? "rotate(-45deg) translateY(-7px)" : "none" }} />
           </button>
         </div>
 

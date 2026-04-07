@@ -1,4 +1,7 @@
+import { Suspense, lazy } from "react";
 import { shop } from "../data/shop";
+
+const BarberPole3D = lazy(() => import("./BarberPole3D"));
 
 export default function Hero() {
   return (
@@ -25,28 +28,28 @@ export default function Hero() {
         zIndex: 0,
       }} />
 
-      {/* Radial glow */}
+      {/* Radial glow left */}
       <div style={{
         position: "absolute",
-        top: "30%",
-        left: "10%",
-        width: "600px",
-        height: "600px",
-        background: "radial-gradient(ellipse at center, rgba(201,168,76,0.07) 0%, transparent 70%)",
+        top: "20%",
+        left: "5%",
+        width: "700px",
+        height: "700px",
+        background: "radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 70%)",
         zIndex: 0,
         pointerEvents: "none",
       }} />
 
-      {/* Vertical barber pole stripe accent — right side */}
+      {/* Radial glow right */}
       <div style={{
         position: "absolute",
-        right: "8%",
-        top: "10%",
-        bottom: "10%",
-        width: "4px",
-        background: "repeating-linear-gradient(180deg, #C9A84C 0px, #C9A84C 20px, #080808 20px, #080808 40px, #F5F0E8 40px, #F5F0E8 60px, #080808 60px, #080808 80px)",
-        opacity: 0.4,
+        bottom: "0%",
+        right: "10%",
+        width: "500px",
+        height: "500px",
+        background: "radial-gradient(ellipse at center, rgba(201,168,76,0.04) 0%, transparent 70%)",
         zIndex: 0,
+        pointerEvents: "none",
       }} />
 
       {/* Large ghost text background */}
@@ -66,6 +69,22 @@ export default function Hero() {
         LCBS
       </div>
 
+      {/* 3D Barber Pole — right side */}
+      <div style={{
+        position: "absolute",
+        right: "4%",
+        top: "50%",
+        transform: "translateY(-50%)",
+        width: "clamp(200px, 28vw, 380px)",
+        height: "clamp(400px, 70vh, 700px)",
+        zIndex: 1,
+        opacity: 0.9,
+      }}>
+        <Suspense fallback={null}>
+          <BarberPole3D />
+        </Suspense>
+      </div>
+
       {/* Content */}
       <div style={{
         maxWidth: "1200px",
@@ -75,7 +94,7 @@ export default function Hero() {
         zIndex: 2,
         width: "100%",
       }}>
-        <div style={{ maxWidth: "700px" }}>
+        <div style={{ maxWidth: "660px" }}>
           {/* Badge */}
           <div className="animate-fade-up" style={{
             display: "inline-flex",
@@ -149,7 +168,7 @@ export default function Hero() {
                 textDecoration: "none",
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "8px",
+                gap: "10px",
                 transition: "background-color 0.2s ease, transform 0.2s ease",
               }}
               onMouseEnter={(e) => {
@@ -161,7 +180,13 @@ export default function Hero() {
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >
-              ✂️ Book Your Cut
+              {/* Scissor SVG */}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+                <line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/>
+                <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+              </svg>
+              Book Your Cut
             </a>
             <a
               href={`tel:${shop.phone}`}
@@ -177,7 +202,7 @@ export default function Hero() {
                 textDecoration: "none",
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "8px",
+                gap: "10px",
                 transition: "border-color 0.2s ease, color 0.2s ease",
               }}
               onMouseEnter={(e) => {
@@ -189,7 +214,11 @@ export default function Hero() {
                 e.currentTarget.style.color = "#F5F0E8";
               }}
             >
-              📞 {shop.phone}
+              {/* Phone SVG */}
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.72 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.63 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.09 6.09l.99-.99a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/>
+              </svg>
+              {shop.phone}
             </a>
           </div>
 
@@ -204,9 +233,9 @@ export default function Hero() {
           }}>
             {[
               { value: "21+", label: "Years Serving" },
-              { value: "4.9★", label: "Booksy Rating" },
-              { value: "5.0★", label: "Yelp Rating" },
-              { value: "4 Barbers", label: "On Staff" },
+              { value: "4.9", label: "Booksy Rating" },
+              { value: "5.0", label: "Yelp Rating" },
+              { value: "4", label: "Barbers on Staff" },
             ].map((stat) => (
               <div key={stat.label}>
                 <div style={{
@@ -244,6 +273,12 @@ export default function Hero() {
         background: "linear-gradient(90deg, transparent, #C9A84C 30%, #C9A84C 70%, transparent)",
         opacity: 0.3,
       }} />
+
+      <style>{`
+        @media (max-width: 900px) {
+          #home .pole-3d { display: none !important; }
+        }
+      `}</style>
     </section>
   );
 }
